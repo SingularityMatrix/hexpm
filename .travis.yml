@@ -10,17 +10,14 @@ env:
     - HEXPM_PATH=..
     - HEXWEB_PATH=..
   matrix:
-    - HEX_VERSION=master
-    - HEX_VERSION=v0.16.1
-    - HEX_VERSION=v0.15.0
-    - HEX_VERSION=v0.14.1
+    - HEX_VERSION=wm-hex-tar-elixir
 before_script:
   - mix ecto.create
   - git clone https://github.com/hexpm/hex hex -b ${HEX_VERSION} --depth 1
 script:
+  - cd hex; mix deps.get && mix test --include integration && mix install
   - mix test --include integration
   - mix run priv/repo/seeds.exs
-  - cd hex; mix deps.get && mix test --include integration
 notifications:
   recipients:
   - eric.meadows.jonsson@gmail.com
